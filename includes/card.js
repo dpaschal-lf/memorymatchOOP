@@ -5,7 +5,8 @@ class Card{
 		this.options = {};
 		var defaultOptions = {
 			back: 'images/background.png',
-			front: 'images/background.png'
+			front: 'images/background.png',
+			clickCallback: function(){}
 		}
 		this.cardParts = {}
 		for(var key in defaultOptions){
@@ -19,11 +20,25 @@ class Card{
 	reveal(){
 		this.cardParts.back.hide();
 	}
-	hide(){
+	hide( hideTimer = 0){
+		setTimeout( this.hideSelf.bind(this), hideTimer);
+	}
+	hideSelf(){
 		this.cardParts.back.show();
 	}
+	handleClick(){
+		this.options.clickCallback( this );
+	}
+	getID(){
+		return this.options.front
+	}
 	render(){
-		this.cardParts.container = $("<div>").addClass('cardContainer')
+		this.cardParts.container = $("<div>",{
+			'class': 'cardContainer',
+			on: {
+				click: this.handleClick.bind(this)
+			}
+		})
 		this.cardParts.cardElement = $("<div>").addClass('card');
 		this.cardParts.front = $("<div>", {
 			'class': 'front',

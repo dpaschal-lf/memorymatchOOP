@@ -16,6 +16,8 @@ class MemoryMatchGame{
 			}
 		}
 		this.cards = [];
+		this.cardMatchedCount = 0;
+		this.currentClickedCards = [];
 	}
 	randomizeImages(count = (this.options.imageList.length*2)){
 		var newList = [];
@@ -29,11 +31,39 @@ class MemoryMatchGame{
 		}
 		return newList;
 	}
+	handleCardClick( card ){
+		if(this.currentClickedCards.length>=2){
+			console.log('too many cards are clicked')
+			return;
+		}
+		this.currentClickedCards.push( card );
+		card.reveal();
+		if(this.currentClickedCards.length===2){
+			if(this.checkForMatch()){
+				console.log('they match')
+				this.cardMatchedCount+=2;
+				if(this.cardMatchedCount === this.cards.length){
+					console.log('all cards match')
+				}
+			} else {
+				for(var i=0; i<this.currentClickedCards.length; i++){
+					this.currentClickedCards[i].hide(3000);
+				}
+			}
+			this.currentClickedCards = [];
+		}
+	}
+	checkForMatch(){
+		var card1 = this.currentClickedCards[0];
+		var card2 = this.currentClickedCards[1];
+		return card1.getID() === card2.getID()
+	}
 	makeGameBoard(){
 		var imageList = this.randomizeImages();
 		for(var imageIndex=0; imageIndex<imageList.length; imageIndex++){
 			var optionsObject = {
-				front: imageList[imageIndex]
+				front: imageList[imageIndex],
+				clickCallback: this.handleCardClick.bind(this)
 			}
 			var card = new Card( optionsObject );
 			this.cards.push(card);
