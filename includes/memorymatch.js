@@ -18,6 +18,7 @@ class MemoryMatchGame{
 		this.cards = [];
 		this.cardMatchedCount = 0;
 		this.currentClickedCards = [];
+		this.statsTracker = null;
 	}
 	randomizeImages(count = (this.options.imageList.length*2)){
 		var newList = [];
@@ -38,10 +39,12 @@ class MemoryMatchGame{
 		}
 		this.currentClickedCards.push( card );
 		card.reveal();
+		this.statsTracker.update('clicks', 1);
 		if(this.currentClickedCards.length===2){
 			if(this.checkForMatch()){
 				console.log('they match')
 				this.cardMatchedCount+=2;
+				this.statsTracker.update('matches', 2);
 				if(this.cardMatchedCount === this.cards.length){
 					console.log('all cards match')
 				}
@@ -70,6 +73,15 @@ class MemoryMatchGame{
 			var domElement = card.render();
 			this.options.cardArea.append( domElement );
 		}
+	}
+	initializeStats(){
+		var options = {
+			gamesPlayedDisplay: $("#played"),
+			cardsMatchedDisplay: $("#matches"),
+			accuracyDisplay: $("#accuracy"),
+		}
+		this.statsTracker = new MemoryMatchStats(options);
+
 	}
 
 }

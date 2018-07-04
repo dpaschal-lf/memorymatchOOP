@@ -36,7 +36,7 @@ class Card{
 		this.cardParts.container = $("<div>",{
 			'class': 'cardContainer',
 			on: {
-				click: this.handleClick.bind(this)
+				click: this.handleClick.bind(this),
 			}
 		})
 		this.cardParts.cardElement = $("<div>").addClass('card');

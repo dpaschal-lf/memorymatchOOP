@@ -10,4 +10,5 @@ function initialize(){
 	}
 	game = new MemoryMatchGame( options );
 	game.makeGameBoard();
+	game.initializeStats();
 }
