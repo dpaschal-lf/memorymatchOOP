@@ -16,6 +16,12 @@ class Card{
 			}
 		}		
 	}
+	reveal(){
+		this.cardParts.back.hide();
+	}
+	hide(){
+		this.cardParts.back.show();
+	}
 	render(){
 		this.cardParts.container = $("<div>").addClass('cardContainer')
 		this.cardParts.cardElement = $("<div>").addClass('card');

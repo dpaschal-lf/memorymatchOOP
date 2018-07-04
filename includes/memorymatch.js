@@ -15,6 +15,7 @@ class MemoryMatchGame{
 				this.options[key] = optionsObject[key];
 			}
 		}
+		this.cards = [];
 	}
 	randomizeImages(count = (this.options.imageList.length*2)){
 		var newList = [];
@@ -35,6 +36,7 @@ class MemoryMatchGame{
 				front: imageList[imageIndex]
 			}
 			var card = new Card( optionsObject );
+			this.cards.push(card);
 			var domElement = card.render();
 			this.options.cardArea.append( domElement );
 		}
